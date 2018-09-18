@@ -1,12 +1,22 @@
-
 build: src/testunit.c
-	mkdir -p build-output;
-	cp src/testunit.h build-output/testunit.h  
-	gcc -Wall -shared src/testunit.c -o build-output/libtestunit.so
+	# Make build output directories
+	mkdir -p build-output/lib;
+	mkdir -p build-output/include;
+	
+	# Copy header files over
+	cp src/testunit.h build-output/include/testunit.h
+	
+	# Create the shared object  
+	gcc -Wall -shared src/testunit.c -o build-output/lib/libtestunit.so
 
 test: clean build
+	# Make test output directory
 	mkdir -p test-output;
-	gcc -Wall test/test.c -I build-output -L build-output -l testunit -o test-output/test.o
+	
+	# Create test
+	gcc -Wall test/test.c -I build-output/include -L build-output/lib -l testunit -o test-output/test.o
+	
+	# Run test
 	./test-output/test.o
 
 clean: 
