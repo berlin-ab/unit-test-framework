@@ -2,22 +2,42 @@
 #include <stdlib.h>
 #include "testunit.h"
 
-Suite *make_suite() {
-	Suite *suite;
-	suite = (Suite*) malloc(sizeof(Suite));
+struct TestData {
+	char* name;
+	void (*test)(void *);
+};
+
+struct GroupData {
+	char *name;
+	Test test;
+};
+ 
+struct SuiteData {
+	Group group;
+	int number_of_failed_tests;
+	int number_of_successful_tests;
+};
+
+char* get_group_name(Group group) {
+	return group->name;
+}
+
+Suite make_suite() {
+	Suite suite;
+	suite = (Suite) malloc(sizeof(Suite));
 	suite->number_of_failed_tests = 0;
 	suite->number_of_successful_tests = 0;
 	return suite;
 }
 
-static Suite* current_suite;
+static Suite current_suite;
 
-void run_suite(Suite *suite) {
+void run_suite(Suite suite) {
 	current_suite = suite;
 	printf("Running suite.\n");
 
 	if (suite->group && suite->group->test) {
-		Test *test = suite->group->test;
+		Test test = suite->group->test;
 		
 		test->test(suite->group);
 		
@@ -30,12 +50,12 @@ void run_suite(Suite *suite) {
 		suite->number_of_failed_tests);
 }
 
-void add_group_to_suite(Suite *suite, Group *group) {
+void add_group_to_suite(Suite suite, Group group) {
 	printf("Adding a group to the suite.\n");
 	suite->group = group;
 }
 
-Group *make_group() {
+Group make_group() {
 	return malloc(sizeof(Group));
 }
 
@@ -56,9 +76,9 @@ void assert_equal(void *actual, void *expected) {
 	}
 }
 
-void add_to_group(Group *group, void (*testFn)(void *)) {
+void add_to_group(Group group, void (*testFn)(void *)) {
 	printf("Adding test to group.\n");
-	Test *test = malloc(sizeof(Test));
+	Test test = malloc(sizeof(Test));
 	test->name = "some test name";
 	test->test = testFn;
 	group->test = test;
