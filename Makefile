@@ -1,4 +1,4 @@
-build: src/testunit.c src/testunit/suite.c
+build: src/testunit.c src/testunit/suite.c  src/testunit/group.c
 	# Make build output directories
 	mkdir -p build-output/lib;
 	mkdir -p build-output/include;
@@ -7,7 +7,7 @@ build: src/testunit.c src/testunit/suite.c
 	cp src/testunit.h build-output/include/testunit.h
 	
 	# Create the shared object  
-	gcc -Wall -shared src/testunit.c src/testunit/suite.c \
+	gcc -Wall -shared src/testunit.c src/testunit/suite.c src/testunit/group.c \
 		-o build-output/lib/libtestunit.so
 
 test: clean build
