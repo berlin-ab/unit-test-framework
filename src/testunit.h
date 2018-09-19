@@ -7,9 +7,9 @@ Suite make_suite();
 void run_suite(Suite suite);
 void add_group_to_suite(Suite suite, Group group);
 
-Group make_group();
+Group make_group(char *name);
 char* get_group_name(Group group);
 
 void *equals();
 void assert_equal(void *actual, void *expected);
-void add_to_group(Group group, void (*f)(void *group));
+void add_to_group(Group group, void (*test_function)(void *));

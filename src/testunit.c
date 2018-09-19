@@ -44,7 +44,7 @@ void run_suite(Suite suite) {
 		printf("Running %s.\n", test->name);
 	}
 
-	printf("Ran %d tests. %d succeeded. %d failed.",
+	printf("Ran %d tests. %d succeeded. %d failed.\n",
 		suite->number_of_failed_tests+suite->number_of_successful_tests,
 		suite->number_of_successful_tests, 
 		suite->number_of_failed_tests);
@@ -55,8 +55,10 @@ void add_group_to_suite(Suite suite, Group group) {
 	suite->group = group;
 }
 
-Group make_group() {
-	return malloc(sizeof(Group));
+Group make_group(char *name) {
+	Group group = malloc(sizeof(Group));
+	group->name = name;
+	return group;
 }
 
 static void success() {
