@@ -12,47 +12,17 @@ struct GroupData {
 	Test test;
 };
  
-struct SuiteData {
-	Group group;
-	int number_of_failed_tests;
-	int number_of_successful_tests;
-};
-
 char* get_group_name(Group group) {
 	return group->name;
 }
 
-Suite make_suite() {
-	Suite suite;
-	suite = (Suite) malloc(sizeof(Suite));
-	suite->number_of_failed_tests = 0;
-	suite->number_of_successful_tests = 0;
-	return suite;
+void run_test(Test test, Group group) {
+	test->test(group);
 }
 
-static Suite current_suite;
-
-void run_suite(Suite suite) {
-	current_suite = suite;
-	printf("Running suite.\n");
-
-	if (suite->group && suite->group->test) {
-		Test test = suite->group->test;
-		
-		test->test(suite->group);
-		
-		printf("Running %s.\n", test->name);
-	}
-
-	printf("Ran %d tests. %d succeeded. %d failed.\n",
-		suite->number_of_failed_tests+suite->number_of_successful_tests,
-		suite->number_of_successful_tests, 
-		suite->number_of_failed_tests);
-}
-
-void add_group_to_suite(Suite suite, Group group) {
-	printf("Adding a group to the suite.\n");
-	suite->group = group;
+void run_group(Group group) {
+	run_test(group->test, group);
+	printf("Running %s.\n", get_test_name(group->test));
 }
 
 Group make_group(char *name) {
@@ -61,21 +31,8 @@ Group make_group(char *name) {
 	return group;
 }
 
-static void success() {
-	current_suite->number_of_successful_tests++;
-}
-
-static void failed() {
-	current_suite->number_of_failed_tests++;
-}
-
-
-void assert_equal(void *actual, void *expected) {
-	if (actual == expected) {
-		success();
-	}	else {
-		failed();
-	}
+char *get_test_name(Test test) {
+	return test->name;
 }
 
 void add_to_group(Group group, void (*testFn)(void *)) {
