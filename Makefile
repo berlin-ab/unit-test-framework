@@ -7,7 +7,7 @@ build: src/testunit.c src/testunit/suite.c  src/testunit/group.c
 	cp src/testunit.h build-output/include/testunit.h
 	
 	# Create the shared object  
-	gcc -Wall -shared src/testunit.c src/testunit/suite.c src/testunit/group.c \
+	gcc -Wall -shared src/testunit.c src/testunit/suite.c src/testunit/group.c src/testunit/test.c \
 		-o build-output/lib/libtestunit.so
 
 test: clean build
