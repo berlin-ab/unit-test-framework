@@ -1,4 +1,7 @@
-#include "../testunit.h"
+#include "testunit.h"
+
+#include "internal/group.h"
+#include "internal/test.h"
 
 struct GroupData {
 	char *name;

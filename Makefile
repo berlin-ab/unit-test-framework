@@ -8,6 +8,7 @@ build: src/testunit.c src/testunit/suite.c  src/testunit/group.c
 	
 	# Create the shared object  
 	gcc -Wall -shared src/testunit.c src/testunit/suite.c src/testunit/group.c src/testunit/test.c \
+		-I build-output/include \
 		-o build-output/lib/libtestunit.so
 
 test: clean build
@@ -15,7 +16,11 @@ test: clean build
 	mkdir -p test-output;
 	
 	# Create test
-	gcc -Wall test/test.c -I build-output/include -L build-output/lib -l testunit -o test-output/test.o
+	gcc -Wall test/test.c \
+		-I build-output/include \
+		-L build-output/lib \
+		-l testunit \
+		-o test-output/test.o
 	
 	# Run test
 	./test-output/test.o

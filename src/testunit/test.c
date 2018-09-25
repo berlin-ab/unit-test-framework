@@ -1,4 +1,5 @@
-#include "../testunit.h"
+#include "testunit.h"
+#include "internal/test.h"
 
 struct TestData {
 	char* name;

@@ -1,6 +1,10 @@
-#include "../testunit.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "testunit.h"
+
+#include "internal/test.h"
+#include "internal/group.h"
 
 struct SuiteData {
 	Group group;
